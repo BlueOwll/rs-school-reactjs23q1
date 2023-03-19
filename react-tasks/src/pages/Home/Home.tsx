@@ -1,16 +1,15 @@
 import Cards from './../../components/Cards/Cards';
 import React from 'react';
 import Search from './../../components/Search/Search';
-// import './AboutUs.css';
+import './Home.css';
 
 class Home extends React.Component {
   render() {
     return (
-      <>
-        <h1>Main page</h1>
+      <div className="home">
         <Search />
         <Cards />
-      </>
+      </div>
     );
   }
 }
