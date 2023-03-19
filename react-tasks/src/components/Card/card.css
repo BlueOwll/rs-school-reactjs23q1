@@ -1,0 +1,10 @@
+.card {
+  
+  width: 40vw;
+}
+.card__wrapper {
+  background-color: rgb(231, 181, 14);
+  color:rgb(65, 50, 2);
+  border-radius: 10px;
+  box-shadow: 10px;
+}
