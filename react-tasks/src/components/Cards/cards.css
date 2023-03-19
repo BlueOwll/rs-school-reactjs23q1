@@ -1,5 +1,7 @@
 .cards {
   display: flex;
-  flex-direction: column;
+  margin: 10vh auto;
+  justify-content: center;
+  gap: 5vw;
   align-items: center;
 }

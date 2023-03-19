@@ -1,10 +1,18 @@
-.card {
+.card {  
+  box-sizing: border-box;
+  background-color: var(--light-bg-color);
+  min-height: 10vh;
   
-  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--dark-font-color);
+  border-radius: 10px;
+  box-shadow: 10px 10px 25px 0px rgba(0,0,0,0.24);
 }
 .card__wrapper {
-  background-color: rgb(231, 181, 14);
-  color:rgb(65, 50, 2);
-  border-radius: 10px;
-  box-shadow: 10px;
+
 }
+

@@ -18,5 +18,5 @@ class Header extends React.Component {
     );
   }
 }
-
+// <p>{window.location.href}</p>
 export default Header;

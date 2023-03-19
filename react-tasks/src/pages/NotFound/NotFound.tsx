@@ -3,7 +3,13 @@ import './NotFound.css';
 
 class NotFound extends React.Component {
   render() {
-    return <h1>Error 404: page not found</h1>;
+    return (
+      <div className="not-found">
+        <h3>
+          Error 404: <br /> page not found
+        </h3>
+      </div>
+    );
   }
 }
 
