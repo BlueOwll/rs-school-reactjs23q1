@@ -18,6 +18,6 @@
     "noImplicitAny": true,
     "baseUrl": "./src",
   },
-  "include": ["./src/**/*", "styled.d.ts"],
+  "include": ["./src/**/*", "styled.d.ts", "./setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
