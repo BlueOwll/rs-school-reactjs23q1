@@ -8,7 +8,12 @@ interface INewCardProps {
   updateData: (card: ICardProps) => void;
 }
 
-class NewCardForm extends React.Component<INewCardProps> {
+interface INewCardFormState {
+  emptyName: boolean;
+  emptyFile: boolean;
+}
+
+class NewCardForm extends React.Component<INewCardProps, INewCardFormState> {
   name = React.createRef<HTMLInputElement>(); //text
   birthday = React.createRef<HTMLInputElement>(); //date
   breed = React.createRef<HTMLSelectElement>(); //select
@@ -16,6 +21,15 @@ class NewCardForm extends React.Component<INewCardProps> {
   male = React.createRef<HTMLInputElement>(); //radio
   fromShelter = React.createRef<HTMLInputElement>(); //checkbox
   img = React.createRef<HTMLInputElement>(); // file
+  form = React.createRef<HTMLFormElement>();
+
+  constructor(props: INewCardProps) {
+    super(props);
+    this.state = {
+      emptyName: false,
+      emptyFile: false,
+    };
+  }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -24,22 +38,42 @@ class NewCardForm extends React.Component<INewCardProps> {
       this.setState({ emptyName: true });
       return;
     }
+    this.setState({
+      ...this.state,
+      emptyName: false,
+    });
+    console.log(this.img.current?.files);
+    if (!this.img.current || !this.img.current.files?.length) {
+      this.setState({ emptyFile: true });
+      return;
+    }
+    this.setState({
+      ...this.state,
+      emptyFile: false,
+    });
     this.props.updateData({
       name: this.name.current.value,
       birthday: this.birthday.current ? this.birthday.current.value : undefined,
       breed: this.breed.current ? this.breed.current.value : breeds[0],
-      sex: this.male.current ? 'male' : 'female',
+      sex: this.male.current && this.male.current.checked ? 'male' : 'female',
       fromShelter: this.fromShelter.current ? this.fromShelter.current.checked : false,
-      imgPath: this.img.current && this.img.current.files ? this.img.current.files[0] : '',
+      imgPath: this.img.current.files[0],
+    });
+    this.form.current?.reset();
+    this.setState({
+      ...this.state,
+      emptyFile: false,
+      emptyName: false,
     });
   };
 
   render() {
     return (
-      <form className="form__wrapper" onSubmit={this.handleSubmit}>
+      <form className="form__wrapper" onSubmit={this.handleSubmit} ref={this.form}>
         <label>
           Name
           <input type="text" ref={this.name} />
+          {this.state.emptyName && <p className="error">Enter name</p>}
         </label>
         <label>
           Birthday
@@ -74,7 +108,7 @@ class NewCardForm extends React.Component<INewCardProps> {
           Upload file:
           <input type="file" ref={this.img} />
         </label>
-
+        {this.state.emptyFile && <p className="error">Choose file</p>}
         <input className="form__button" type="submit" value="Submit" />
       </form>
     );

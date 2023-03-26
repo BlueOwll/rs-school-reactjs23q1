@@ -35,3 +35,6 @@ input, select{
   background-color: var(--accent-color);
   color: var(--light-font-color);
 }
+.error {
+  color: red;
+}
