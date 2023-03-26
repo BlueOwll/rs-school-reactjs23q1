@@ -17,6 +17,7 @@ export default class Cards extends React.Component<ICardsProps> {
     // console.log(data);
   }
   render() {
+    if (this.props.newCard) data.push(this.props.newCard);
     console.log(data);
     return (
       <div className="cards">
