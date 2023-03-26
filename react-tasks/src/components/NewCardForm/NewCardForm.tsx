@@ -10,7 +10,10 @@ interface INewCardProps {
 
 interface INewCardFormState {
   emptyName: boolean;
+  wrongName: boolean;
   emptyFile: boolean;
+  emptyBirthday: boolean;
+  wrongBirthday: boolean;
 }
 
 class NewCardForm extends React.Component<INewCardProps, INewCardFormState> {
@@ -27,30 +30,22 @@ class NewCardForm extends React.Component<INewCardProps, INewCardFormState> {
     super(props);
     this.state = {
       emptyName: false,
+      wrongName: false,
       emptyFile: false,
+      emptyBirthday: false,
+      wrongBirthday: false,
     };
   }
 
   handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    if (!this.name.current || !this.name.current.value) {
-      this.setState({ emptyName: true });
-      return;
-    }
-    this.setState({
-      ...this.state,
-      emptyName: false,
-    });
-    console.log(this.img.current?.files);
-    if (!this.img.current || !this.img.current.files?.length) {
-      this.setState({ emptyFile: true });
-      return;
-    }
-    this.setState({
-      ...this.state,
-      emptyFile: false,
-    });
+    if (!this.name.current || !this.isNameValid()) return;
+
+    if (!this.birthday.current || !this.isDateValid()) return;
+
+    if (!this.img.current || !this.img.current.files || !this.isFileChosen()) return;
+
     this.props.updateData({
       name: this.name.current.value,
       birthday: this.birthday.current ? this.birthday.current.value : undefined,
@@ -59,14 +54,56 @@ class NewCardForm extends React.Component<INewCardProps, INewCardFormState> {
       fromShelter: this.fromShelter.current ? this.fromShelter.current.checked : false,
       imgPath: this.img.current.files[0],
     });
+
     this.form.current?.reset();
-    this.setState({
-      ...this.state,
-      emptyFile: false,
-      emptyName: false,
-    });
+    alert(`Created new card for ${this.name.current.value}`);
+    // this.setState({
+    //   ...this.state,
+    //   emptyFile: false,
+    //   emptyName: false,
+    // });
   };
 
+  isNameValid = () => {
+    if (!this.name.current || !this.name.current.value) {
+      this.setState((state) => ({ ...state, emptyName: true }));
+      return false;
+    }
+    this.setState((state) => ({ ...state, emptyName: false }));
+
+    const firstLetter = this.name.current.value.slice(0, 1);
+    console.log(firstLetter);
+    if (firstLetter !== firstLetter.toUpperCase()) {
+      this.setState((state) => ({ ...state, wrongName: true }));
+      return false;
+    }
+    this.setState((state) => ({ ...state, wrongName: false }));
+    return true;
+  };
+
+  isDateValid = () => {
+    if (!this.birthday.current || !this.birthday.current.value) {
+      this.setState((state) => ({ ...state, emptyBirthday: true }));
+      return false;
+    }
+    this.setState((state) => ({ ...state, emptyBirthday: false }));
+
+    if (Date.parse(this.birthday.current.value) > Date.now()) {
+      this.setState((state) => ({ ...state, wrongBirthday: true }));
+      return false;
+    }
+    this.setState((state) => ({ ...state, wrongBirthday: false }));
+    return true;
+  };
+
+  isFileChosen = () => {
+    if (!this.img.current || !this.img.current.files?.length) {
+      this.setState((state) => ({ ...state, emptyFile: true }));
+      return false;
+    }
+    this.setState((state) => ({ ...state, emptyFile: false }));
+    return true;
+  };
   render() {
     return (
       <form className="form__wrapper" onSubmit={this.handleSubmit} ref={this.form}>
@@ -74,10 +111,13 @@ class NewCardForm extends React.Component<INewCardProps, INewCardFormState> {
           Name
           <input type="text" ref={this.name} />
           {this.state.emptyName && <p className="error">Enter name</p>}
+          {this.state.wrongName && <p className="error">Name should begin with capital letter</p>}
         </label>
         <label>
           Birthday
           <input type="date" ref={this.birthday} />
+          {this.state.emptyBirthday && <p className="error">Enter birthday</p>}
+          {this.state.wrongBirthday && <p className="error">Wrong burthday</p>}
         </label>
         <fieldset>
           <legend>Sex</legend>

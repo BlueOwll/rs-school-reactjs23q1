@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, ICardProps } from '../Card/Card';
 import './cards.css';
 
-// import data from './cards-data';
+import data from './cards-data';
 
-const data: ICardProps[] = [];
+//const data: ICardProps[] = [];
 
 interface ICardsProps {
   newCard?: ICardProps;
