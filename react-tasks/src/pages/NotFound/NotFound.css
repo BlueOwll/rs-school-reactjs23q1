@@ -1,0 +1,8 @@
+.not-found{
+  max-width: 200px;
+  margin: auto;
+  margin-top: calc(50vh - 40px);
+  display: flex;
+  color: var(--dark-font-color);
+}
+

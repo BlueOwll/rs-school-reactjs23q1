@@ -1,0 +1,28 @@
+.App-header {
+  box-sizing: border-box;
+  background-color: var(--main-bg-color);
+  width: 100%;
+  min-height: 10vh;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: calc(10px + 2vmin);
+  color: var(--light-font-color);
+}
+.nav__nav-link {
+  color: var(--primary-color);
+}
+.active {
+  color: var(--accent-color);
+}
+
+.App-header__nav{
+  display: flex;
+  gap: 2rem;
+}
+
+
+.App-link {
+  color: #61dafb;
+}

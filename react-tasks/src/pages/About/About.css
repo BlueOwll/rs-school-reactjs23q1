@@ -1,0 +1,7 @@
+.about{
+  max-width: 80vw;
+  margin: auto;
+  margin-top: calc(50vh - 40px);
+  color: var(--dark-font-color);
+}
+
