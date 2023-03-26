@@ -12,5 +12,6 @@ describe('App', () => {
       </BrowserRouter>
     );
     screen.debug();
+    expect(screen.getByRole('searchbox')).toBeInTheDocument();
   });
 });

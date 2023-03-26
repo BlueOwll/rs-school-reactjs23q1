@@ -12,4 +12,13 @@ describe('<Header />', () => {
     );
     screen.debug();
   });
+  it('test About is in document', () => {
+    render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    );
+    screen.debug();
+    expect(screen.getByText(/About/)).toBeInTheDocument();
+  });
 });
