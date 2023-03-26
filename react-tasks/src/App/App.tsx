@@ -5,6 +5,7 @@ import AboutUs from '../pages/About/About';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import NotFound from './../pages/NotFound/NotFound';
 import Home from './../pages/Home/Home';
+import NewCard from './../pages/NewCard/NewCard';
 
 class App extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class App extends React.Component {
         <Header />
         <Routes>
           <Route index element={<Home />} />
+          <Route path="/form" element={<NewCard />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="/*" element={<Navigate to={'/404'} />} />
