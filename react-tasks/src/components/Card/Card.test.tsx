@@ -4,9 +4,10 @@ import { Card, ICardProps } from './Card';
 
 const testCard: ICardProps = {
   imgPath: '/img/norvegskaya-3.jpg',
-  title: 'Norwegian cat',
-  descr: 'description',
-  story: 'story',
+  name: 'Vasya',
+  breed: 'norvegskaya',
+  sex: 'female',
+  fromShelter: false,
 };
 
 describe('<Card />', () => {

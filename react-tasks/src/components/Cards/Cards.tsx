@@ -1,21 +1,28 @@
 import React from 'react';
-import { Card } from '../Card/Card';
+import { Card, ICardProps } from '../Card/Card';
 import './cards.css';
 
-import data from './cards-data';
+// import data from './cards-data';
 
-export default class Cards extends React.Component {
+const data: ICardProps[] = [];
+
+interface ICardsProps {
+  newCard?: ICardProps;
+}
+
+export default class Cards extends React.Component<ICardsProps> {
+  constructor(props: ICardsProps) {
+    super(props);
+    if (props.newCard) data.push(props.newCard);
+    // console.log(data);
+  }
   render() {
+    if (this.props.newCard) data.push(this.props.newCard);
+    console.log(data);
     return (
       <div className="cards">
         {data.map((item, index) => (
-          <Card
-            key={index.toString()}
-            imgPath={item.imgPath}
-            title={item.title}
-            descr={item.descr}
-            story={item.story}
-          />
+          <Card key={index.toString()} {...item} />
         ))}
       </div>
     );

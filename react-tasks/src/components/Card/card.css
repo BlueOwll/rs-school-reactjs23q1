@@ -2,7 +2,7 @@
   box-sizing: border-box;
   flex-shrink: 0;
   background-color: var(--light-bg-color);
-  height: 300px;
+  height: 310px;
   width: 150px;
   
   display: flex;
@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 .card__wrapper {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 .card__img{
   height: 200px;
