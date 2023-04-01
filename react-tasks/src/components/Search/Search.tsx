@@ -26,7 +26,6 @@ const Search = () => {
     <div className="search">
       <div className="search__wrapper">
         <input type="search" className="search__input" value={searchText} onChange={handleChange} />
-        <p>{searchText}</p>
         <button className="search__button">Search</button>
       </div>
     </div>
