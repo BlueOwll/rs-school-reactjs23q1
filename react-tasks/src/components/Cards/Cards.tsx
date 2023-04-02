@@ -11,9 +11,11 @@ interface ICardsProps {
 }
 
 //export default class Cards extends React.Component<ICardsProps> {
-const Cards = (props: ICardsProps) => {
-  if (props.newCard) data.push(props.newCard);
-  // console.log(data);
+const Cards = (props?: ICardsProps) => {
+  if (props) {
+    if (props.newCard) data.push(props.newCard);
+    // console.log(data);
+  }
 
   return (
     <div className="cards">

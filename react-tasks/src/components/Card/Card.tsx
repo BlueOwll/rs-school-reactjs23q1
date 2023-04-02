@@ -5,7 +5,7 @@ export interface ICardProps {
   imgPath: File | string;
   name: string;
   birthday?: string;
-  sex: string;
+  gender: string;
   breed: string;
   fromShelter: boolean;
 }
@@ -20,7 +20,7 @@ export const Card = (props: ICardProps) => {
       <div className="card__wrapper">
         <h4 className="card__title">{props.name}</h4>
         <p className="card__story">Breed: {props.breed}</p>
-        <p className="card__story">Sex: {props.sex}</p>
+        <p className="card__story">gender: {props.gender}</p>
         <p className="card__story">{props.birthday ? `Birthday: ${props.birthday}` : ''}</p>
         <p className="card__story">{props.fromShelter ? 'from shelter' : ''}</p>
       </div>

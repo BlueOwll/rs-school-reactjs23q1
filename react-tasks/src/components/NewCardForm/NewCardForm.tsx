@@ -13,7 +13,7 @@ interface FormValues {
   name: string; //text
   birthday: string; //date
   breed: string; //select
-  sex: string;
+  gender: string;
   fromShelter: boolean; //checkbox
   img: FileList; // file
 }
@@ -31,7 +31,7 @@ const NewCardForm = (props: INewCardProps) => {
       name: data.name,
       birthday: data.birthday,
       breed: data.breed,
-      sex: data.sex,
+      gender: data.gender,
       fromShelter: data.fromShelter,
       imgPath: data.img[0],
     });
@@ -61,6 +61,7 @@ const NewCardForm = (props: INewCardProps) => {
         Name
         <input
           type="text"
+          placeholder="Name"
           {...register('name', {
             required: 'Enter the name',
             validate: { valid: isNameValid },
@@ -72,21 +73,22 @@ const NewCardForm = (props: INewCardProps) => {
         Birthday
         <input
           type="date"
+          placeholder="birthday"
           {...register('birthday', {
-            required: 'Enter the birthdate',
+            required: 'Enter the birthday',
             validate: { valid: isDateValid },
           })}
         />
         <p className="error">{errors.birthday?.message}</p>
       </label>
       <fieldset>
-        <legend>Sex</legend>
+        <legend>gender</legend>
         <label>
-          <input type="radio" {...register('sex')} defaultChecked value="male" />
+          <input type="radio" {...register('gender')} defaultChecked value="male" />
           Male
         </label>
         <label>
-          <input type="radio" {...register('sex')} value="female" />
+          <input type="radio" {...register('gender')} value="female" />
           Female
         </label>
       </fieldset>
@@ -107,7 +109,7 @@ const NewCardForm = (props: INewCardProps) => {
       </label>
       <label>
         Upload file:
-        <input type="file" {...register('img', { required: 'Enter file' })} />
+        <input type="file" placeholder="file" {...register('img', { required: 'Enter file' })} />
         <p className="error">{errors.img?.message}</p>
       </label>
       <input className="form__button" type="submit" value="Submit" />
