@@ -56,7 +56,7 @@ const NewCardForm = (props: INewCardProps) => {
   };
 
   return (
-    <form className="form__wrapper" onSubmit={handleSubmit(onSubmit)}>
+    <form className="form__wrapper" role="new-card-form" onSubmit={handleSubmit(onSubmit)}>
       <label>
         Name
         <input

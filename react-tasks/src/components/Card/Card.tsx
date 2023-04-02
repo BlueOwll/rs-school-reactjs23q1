@@ -15,7 +15,7 @@ export const Card = (props: ICardProps) => {
     typeof props.imgPath === 'string' ? props.imgPath : window.URL.createObjectURL(props.imgPath);
 
   return (
-    <div className="card">
+    <div className="card" role="card">
       <img src={src} alt="" className="card__img" />
       <div className="card__wrapper">
         <h4 className="card__title">{props.name}</h4>

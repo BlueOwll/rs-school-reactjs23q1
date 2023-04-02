@@ -4,13 +4,11 @@ import './Search.css';
 const keyText = 'inputText';
 
 const Search = () => {
-  const [searchText, setSearchText] = useState('yy');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
-    console.log('useeffect');
-    const text = localStorage.getItem(keyText) || 'zz';
+    const text = localStorage.getItem(keyText) || '';
     setSearchText(text);
-    console.log('useeffect' + text);
   }, []);
 
   useEffect(() => {
