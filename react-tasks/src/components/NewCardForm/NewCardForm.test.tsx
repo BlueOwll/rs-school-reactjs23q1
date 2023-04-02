@@ -1,7 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { ICardProps } from './../Card/Card';
 import NewCardForm from './NewCardForm';
 
 describe('<NewCard Form />', () => {
