@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
-import { getData } from '../Api/Api';
+import { getMany, getRecent, ISearchApiOptions } from '../Api/Api';
 import { ICardsProps } from '../Cards/Cards';
 import './Search.css';
 
@@ -10,9 +10,16 @@ interface ISearchProps {
 }
 
 const getDataFromApi = (searchText: string) => {
-  return getData({ text: searchText }).catch((e) => {
-    throw new Error(e.message);
-  });
+  const options: ISearchApiOptions = {};
+  if (searchText !== '') {
+    return getMany({ text: searchText }).catch((e) => {
+      throw new Error(e.message);
+    });
+  } else {
+    return getRecent().catch((e) => {
+      throw new Error(e.message);
+    });
+  }
 };
 
 const Search = (props: ISearchProps) => {
@@ -39,10 +46,6 @@ const Search = (props: ISearchProps) => {
   };
 
   const requestDataFromApi = (text: string) => {
-    if (text === '') {
-      props.updateData({ isLoaded: true, isError: false, cards: [] });
-      return;
-    }
     getDataFromApi(text)
       .then((res) => {
         props.updateData({ isLoaded: true, isError: false, cards: res });

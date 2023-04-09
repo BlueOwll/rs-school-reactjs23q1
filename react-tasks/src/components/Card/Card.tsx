@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { MouseEventHandler, useCallback, useState } from 'react';
+import { getById } from '../Api/Api';
+import { IPhoto } from '../Api/constants';
+import { FullCard } from '../FullCard/FullCard';
+import Modal from '../Modal/Modal';
 import './card.css';
 
 export interface ICardProps {
@@ -19,10 +23,36 @@ export interface ICardProps {
 }
 
 export const Card = (props: ICardProps) => {
+  const [showFull, setShowFull] = useState(false);
+  const [photo, setPhoto] = useState<IPhoto | undefined>(undefined);
+
+  const handleClick: MouseEventHandler = useCallback(
+    (e) => {
+      console.log(`card showFull = ${showFull} props id = ${props.id}`);
+      if (showFull) {
+        setShowFull((showFull) => !showFull);
+      } else {
+        getById({ photo_id: props.id })
+          .then((res) => {
+            setPhoto(res);
+            setShowFull(!!res);
+          })
+          .catch(() => {
+            setShowFull(false);
+          });
+      }
+    },
+    [props, showFull]
+  );
+
+  const closeFull = useCallback(() => {
+    setShowFull(false);
+  }, []);
+
   const src = `https://live.staticflickr.com/${props.server}/${props.id}_${props.secret}_n.jpg`;
-  //n	small	320
+
   return (
-    <div className="card" role="card">
+    <div className="card" role="card" onClick={handleClick}>
       <img src={src} alt="" className="card__img" />
       <div className="card__wrapper">
         <h4 className="card__title">{props.title}</h4>
@@ -30,7 +60,13 @@ export const Card = (props: ICardProps) => {
         {props.gender && <p className="card__story">gender: {props.gender}</p>}
         <p className="card__story">{props.birthday ? `Birthday: ${props.birthday}` : ''}</p>
         <p className="card__story">{props.fromShelter ? 'from shelter' : ''}</p>
+        <p>{props.id}</p>
       </div>
+      {showFull && photo && (
+        <Modal onClick={closeFull}>
+          <FullCard photo={photo} onClick={closeFull} />
+        </Modal>
+      )}
     </div>
   );
 };

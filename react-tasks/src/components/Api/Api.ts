@@ -1,10 +1,58 @@
-import { API_KEY, API_PARAMS, API_URL, IResponse } from './constants';
+import {
+  API_KEY,
+  API_PARAMS,
+  BASE_URL,
+  GETINFO_PARAMS,
+  GETRECENT_PARAMS,
+  IPhotoResponse,
+  IResponse,
+  SEARCH_PARAMS,
+} from './constants';
 
-export interface IApiOptions {
+export interface ISearchApiOptions {
   text?: string;
+  min_taken_date?: number;
 }
-export const getData = (options: IApiOptions) => {
-  return fetch(getUrl(API_URL, API_KEY, options)) // change to get api/users/current
+export interface IGetInfoApiOptions {
+  photo_id: string;
+}
+export const getMany = (options: ISearchApiOptions) => {
+  console.log('get data');
+  return fetch(getUrl(SEARCH_PARAMS, API_KEY, options))
+    .then(errorHandler)
+    .then((response) => response.json())
+    .then(printData)
+    .then((data) => {
+      const responseData = data as IResponse;
+      if (responseData.stat === 'ok') return responseData.photos ? responseData.photos.photo : [];
+      throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      throw new Error(err.message);
+    });
+};
+
+export const getById = (options: IGetInfoApiOptions) => {
+  console.log('find by id');
+  return fetch(getUrl(GETINFO_PARAMS, API_KEY, options))
+    .then(errorHandler)
+    .then((response) => response.json())
+    .then(printData)
+    .then((data) => {
+      const responseData = data as IPhotoResponse;
+      if (responseData.stat === 'ok') return responseData.photo;
+      throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
+    })
+    .catch((err) => {
+      console.log(err.message);
+      throw new Error(err.message);
+    });
+};
+
+export const getRecent = () => {
+  console.log('get data');
+  return fetch(getUrl(GETRECENT_PARAMS, API_KEY))
     .then(errorHandler)
     .then((response) => response.json())
     .then(printData)
@@ -33,11 +81,17 @@ export const printData = <T>(data: T) => {
   console.log(data);
   return data;
 };
-const getUrl = (url: string, key: string, options: IApiOptions) => {
+const getUrl = (
+  method_params: string,
+  key: string,
+  options?: ISearchApiOptions | IGetInfoApiOptions
+) => {
   return (
-    `${url}&${API_PARAMS.api_key}=${key}` +
-    Object.entries(options)
-      .map((item) => `&${item[0]}=${item[1]}`)
-      .join('')
+    `${BASE_URL}/${method_params}&${API_PARAMS.api_key}=${key}` +
+    (options
+      ? Object.entries(options)
+          .map((item) => `&${item[0]}=${item[1]}`)
+          .join('')
+      : '')
   );
 };
