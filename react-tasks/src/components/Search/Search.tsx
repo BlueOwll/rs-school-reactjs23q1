@@ -50,7 +50,7 @@ const Search = (props: ISearchProps) => {
       .then((res) => {
         props.updateData({ isLoaded: true, isError: false, cards: res });
       })
-      .catch((e) => {
+      .catch(() => {
         props.updateData({ isLoaded: true, isError: true, cards: [] });
       });
   };

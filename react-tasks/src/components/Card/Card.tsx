@@ -56,7 +56,6 @@ export const Card = (props: ICardProps) => {
         {props.gender && <p className="card__story">gender: {props.gender}</p>}
         <p className="card__story">{props.birthday ? `Birthday: ${props.birthday}` : ''}</p>
         <p className="card__story">{props.fromShelter ? 'from shelter' : ''}</p>
-        <p>{props.id}</p>
       </div>
       {showFull && photo && (
         <Modal onClick={closeFull}>

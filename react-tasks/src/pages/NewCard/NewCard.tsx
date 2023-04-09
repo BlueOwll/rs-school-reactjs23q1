@@ -4,8 +4,6 @@ import './NewCard.css';
 import NewCardForm from './../../components/NewCardForm/NewCardForm';
 import { ICardProps } from 'components/Card/Card';
 
-const cards: ICardProps[] = [];
-
 const NewCard = () => {
   const [cards, setCards] = useState<ICardProps[]>([]);
 

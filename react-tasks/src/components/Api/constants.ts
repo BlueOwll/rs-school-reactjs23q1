@@ -6,7 +6,7 @@ export const SEARCH_PARAMS =
 export const GETINFO_PARAMS = '?method=flickr.photos.getInfo&format=json&nojsoncallback=1';
 export const GETRECENT_PARAMS = '?method=flickr.photos.getRecent&format=json&nojsoncallback=1';
 
-export const API_KEY = '3c1cd2519a11fc608f594cfe4a1d31cf';
+export const API_KEY = import.meta.env.VITE_API_KEY;
 
 export enum API_PARAMS {
   api_key = 'api_key',

@@ -24,7 +24,6 @@ export const FullCard = (props: IFullCardProps) => {
           <p className="full-card__viewed">Owner: {props.photo.owner.realname}</p>
           <p>{props.photo.description._content.slice(0, 300)}</p>
           <p className="full-card__viewed">Viewed: {props.photo.views}</p>
-          <p>{props.photo.id}</p>
         </div>
       </div>
     </div>
