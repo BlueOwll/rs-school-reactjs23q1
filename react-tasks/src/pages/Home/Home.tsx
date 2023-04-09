@@ -10,7 +10,6 @@ const Home = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   const updateData = (result: ICardsProps) => {
-    console.log(result);
     if (result.isError) {
       setIsError(true);
       setCards([]);

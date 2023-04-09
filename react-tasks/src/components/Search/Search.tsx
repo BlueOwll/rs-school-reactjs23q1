@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
-import { getMany, getRecent, ISearchApiOptions } from '../Api/Api';
+import { getMany, getRecent } from '../Api/Api';
 import { ICardsProps } from '../Cards/Cards';
 import './Search.css';
 
@@ -10,7 +11,6 @@ interface ISearchProps {
 }
 
 const getDataFromApi = (searchText: string) => {
-  const options: ISearchApiOptions = {};
   if (searchText !== '') {
     return getMany({ text: searchText }).catch((e) => {
       throw new Error(e.message);
@@ -51,7 +51,6 @@ const Search = (props: ISearchProps) => {
         props.updateData({ isLoaded: true, isError: false, cards: res });
       })
       .catch((e) => {
-        console.log(e.message);
         props.updateData({ isLoaded: true, isError: true, cards: [] });
       });
   };

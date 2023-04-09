@@ -26,24 +26,20 @@ export const Card = (props: ICardProps) => {
   const [showFull, setShowFull] = useState(false);
   const [photo, setPhoto] = useState<IPhoto | undefined>(undefined);
 
-  const handleClick: MouseEventHandler = useCallback(
-    (e) => {
-      console.log(`card showFull = ${showFull} props id = ${props.id}`);
-      if (showFull) {
-        setShowFull((showFull) => !showFull);
-      } else {
-        getById({ photo_id: props.id })
-          .then((res) => {
-            setPhoto(res);
-            setShowFull(!!res);
-          })
-          .catch(() => {
-            setShowFull(false);
-          });
-      }
-    },
-    [props, showFull]
-  );
+  const handleClick: MouseEventHandler = useCallback(() => {
+    if (showFull) {
+      setShowFull((showFull) => !showFull);
+    } else {
+      getById({ photo_id: props.id })
+        .then((res) => {
+          setPhoto(res);
+          setShowFull(!!res);
+        })
+        .catch(() => {
+          setShowFull(false);
+        });
+    }
+  }, [props, showFull]);
 
   const closeFull = useCallback(() => {
     setShowFull(false);

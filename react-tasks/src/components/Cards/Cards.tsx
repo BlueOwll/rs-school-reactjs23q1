@@ -4,15 +4,12 @@ import './cards.css';
 
 import Spinner from '../Spinner/Spinner';
 
-//const data: ICardProps[] = [];
-
 export interface ICardsProps {
   cards: ICardProps[];
   isLoaded?: boolean;
   isError?: boolean;
 }
 
-//export default class Cards extends React.Component<ICardsProps> {
 const Cards = (props: ICardsProps) => {
   if (!props.isError && (props.isLoaded === undefined || props.isLoaded)) {
     if (props.cards.length) {

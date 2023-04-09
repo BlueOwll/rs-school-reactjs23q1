@@ -17,59 +17,49 @@ export interface IGetInfoApiOptions {
   photo_id: string;
 }
 export const getMany = (options: ISearchApiOptions) => {
-  console.log('get data');
   return fetch(getUrl(SEARCH_PARAMS, API_KEY, options))
     .then(errorHandler)
     .then((response) => response.json())
-    .then(printData)
     .then((data) => {
       const responseData = data as IResponse;
       if (responseData.stat === 'ok') return responseData.photos ? responseData.photos.photo : [];
       throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
     })
     .catch((err) => {
-      console.log(err.message);
       throw new Error(err.message);
     });
 };
 
 export const getById = (options: IGetInfoApiOptions) => {
-  console.log('find by id');
   return fetch(getUrl(GETINFO_PARAMS, API_KEY, options))
     .then(errorHandler)
     .then((response) => response.json())
-    .then(printData)
     .then((data) => {
       const responseData = data as IPhotoResponse;
       if (responseData.stat === 'ok') return responseData.photo;
       throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
     })
     .catch((err) => {
-      console.log(err.message);
       throw new Error(err.message);
     });
 };
 
 export const getRecent = () => {
-  console.log('get data');
   return fetch(getUrl(GETRECENT_PARAMS, API_KEY))
     .then(errorHandler)
     .then((response) => response.json())
-    .then(printData)
     .then((data) => {
       const responseData = data as IResponse;
       if (responseData.stat === 'ok') return responseData.photos ? responseData.photos.photo : [];
       throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
     })
     .catch((err) => {
-      console.log(err.message);
       throw new Error(err.message);
     });
 };
 
 export const errorHandler = (res: Response) => {
   const status = res.status.toString();
-  console.log(res);
   if (res.ok) return res;
   return res.text().then((data) => {
     throw new Error(`Error ${status}: ${data}`);
