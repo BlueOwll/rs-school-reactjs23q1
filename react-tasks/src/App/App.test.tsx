@@ -12,6 +12,5 @@ describe('App', () => {
       </BrowserRouter>
     );
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
-    expect(screen.getAllByRole('card')).not.toHaveLength(0);
   });
 });

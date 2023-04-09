@@ -34,6 +34,7 @@ export const getById = (options: IGetInfoApiOptions) => {
   return fetch(getUrl(GETINFO_PARAMS, API_KEY, options))
     .then(errorHandler)
     .then((response) => response.json())
+    .then((res) => printData(res))
     .then((data) => {
       const responseData = data as IPhotoResponse;
       if (responseData.stat === 'ok') return responseData.photo;
