@@ -28,7 +28,8 @@ const NewCardForm = (props: INewCardProps) => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     props.updateData({
-      name: data.name,
+      id: crypto.randomUUID(),
+      title: data.name,
       birthday: data.birthday,
       breed: data.breed,
       gender: data.gender,
