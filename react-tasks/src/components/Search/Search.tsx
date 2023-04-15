@@ -3,6 +3,9 @@ import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from
 import { getMany, getRecent } from '../Api/Api';
 import { ICardsProps } from '../Cards/Cards';
 import './Search.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { update } from './SearchSlice';
 
 const keyText = 'inputText';
 
@@ -23,26 +26,22 @@ const getDataFromApi = (searchText: string) => {
 };
 
 const Search = (props: ISearchProps) => {
-  const [searchText, setSearchText] = useState('');
+  const searchText = useSelector((state: RootState) => state.searchText.value);
+  const dispatch = useDispatch();
+  const [inputSearchText, setInputSearchText] = useState(searchText);
 
   useEffect(() => {
-    const text = localStorage.getItem(keyText) || '';
-    localStorage.removeItem(keyText);
-    setSearchText(text);
-    requestDataFromApi(text);
+    requestDataFromApi(inputSearchText);
   }, []);
 
-  useEffect(() => {
-    return localStorage.setItem(keyText, searchText);
-  }, [searchText]);
-
   const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearchText(e.target.value);
+    setInputSearchText(e.target.value);
   };
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    requestDataFromApi(searchText);
+    dispatch(update(inputSearchText));
+    requestDataFromApi(inputSearchText);
   };
 
   const requestDataFromApi = (text: string) => {
@@ -61,7 +60,7 @@ const Search = (props: ISearchProps) => {
         <input
           type="search"
           className="search__input"
-          value={searchText}
+          value={inputSearchText}
           onChange={handleSearchChange}
         />
         <input className="search__button" type="submit" value="Search"></input>
