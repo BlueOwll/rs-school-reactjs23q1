@@ -17,6 +17,14 @@ export enum API_PARAMS {
   min_taken_date = 'min_taken_date',
 }
 
+export interface ISearchApiOptions {
+  text?: string;
+  min_taken_date?: number;
+}
+export interface IGetInfoApiOptions {
+  photo_id: string;
+}
+
 export interface IResponse {
   stat: string;
   photos?: {

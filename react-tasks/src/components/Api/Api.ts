@@ -4,20 +4,16 @@ import {
   BASE_URL,
   GETINFO_PARAMS,
   GETRECENT_PARAMS,
+  IGetInfoApiOptions,
   IPhotoResponse,
   IResponse,
+  ISearchApiOptions,
   SEARCH_PARAMS,
 } from './constants';
+import { getUrl } from './helpers';
 
-export interface ISearchApiOptions {
-  text?: string;
-  min_taken_date?: number;
-}
-export interface IGetInfoApiOptions {
-  photo_id: string;
-}
 export const getMany = (options: ISearchApiOptions) => {
-  return fetch(getUrl(SEARCH_PARAMS, API_KEY, options))
+  return fetch(BASE_URL + getUrl(SEARCH_PARAMS, API_KEY, options))
     .then(errorHandler)
     .then((response) => response.json())
     .then((data) => {
@@ -31,7 +27,7 @@ export const getMany = (options: ISearchApiOptions) => {
 };
 
 export const getById = (options: IGetInfoApiOptions) => {
-  return fetch(getUrl(GETINFO_PARAMS, API_KEY, options))
+  return fetch(BASE_URL + getUrl(GETINFO_PARAMS, API_KEY, options))
     .then(errorHandler)
     .then((response) => response.json())
     .then((res) => printData(res))
@@ -46,7 +42,7 @@ export const getById = (options: IGetInfoApiOptions) => {
 };
 
 export const getRecent = () => {
-  return fetch(getUrl(GETRECENT_PARAMS, API_KEY))
+  return fetch(BASE_URL + getUrl(GETRECENT_PARAMS, API_KEY))
     .then(errorHandler)
     .then((response) => response.json())
     .then((data) => {
@@ -72,17 +68,18 @@ export const printData = <T>(data: T) => {
   console.log(data);
   return data;
 };
-const getUrl = (
-  method_params: string,
-  key: string,
-  options?: ISearchApiOptions | IGetInfoApiOptions
-) => {
-  return (
-    `${BASE_URL}/${method_params}&${API_PARAMS.api_key}=${key}` +
-    (options
-      ? Object.entries(options)
-          .map((item) => `&${item[0]}=${item[1]}`)
-          .join('')
-      : '')
-  );
-};
+
+// const getUrl = (
+//   method_params: string,
+//   key: string,
+//   options?: ISearchApiOptions | IGetInfoApiOptions
+// ) => {
+//   return (
+//     `${BASE_URL}/${method_params}&${API_PARAMS.api_key}=${key}` +
+//     (options
+//       ? Object.entries(options)
+//           .map((item) => `&${item[0]}=${item[1]}`)
+//           .join('')
+//       : '')
+//   );
+// };

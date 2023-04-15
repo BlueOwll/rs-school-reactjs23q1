@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { searchTextSlice } from '../components/Search/SearchSlice';
+import { flickrApi } from '../components/Api/FlickrApi';
 
 export const store = configureStore({
   reducer: {
     searchText: searchTextSlice.reducer,
+    [flickrApi.reducerPath]: flickrApi.reducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(flickrApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

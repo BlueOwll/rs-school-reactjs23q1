@@ -6,6 +6,7 @@ import './Search.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { update } from './SearchSlice';
+import { useGetManyQuery } from '../Api/FlickrApi';
 
 const keyText = 'inputText';
 
@@ -13,26 +14,10 @@ interface ISearchProps {
   updateData: (result: ICardsProps) => void;
 }
 
-const getDataFromApi = (searchText: string) => {
-  if (searchText !== '') {
-    return getMany({ text: searchText }).catch((e) => {
-      throw new Error(e.message);
-    });
-  } else {
-    return getRecent().catch((e) => {
-      throw new Error(e.message);
-    });
-  }
-};
-
-const Search = (props: ISearchProps) => {
+const Search = () => {
   const searchText = useSelector((state: RootState) => state.searchText.value);
   const dispatch = useDispatch();
   const [inputSearchText, setInputSearchText] = useState(searchText);
-
-  useEffect(() => {
-    requestDataFromApi(inputSearchText);
-  }, []);
 
   const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputSearchText(e.target.value);
@@ -41,17 +26,6 @@ const Search = (props: ISearchProps) => {
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     dispatch(update(inputSearchText));
-    requestDataFromApi(inputSearchText);
-  };
-
-  const requestDataFromApi = (text: string) => {
-    getDataFromApi(text)
-      .then((res) => {
-        props.updateData({ isLoaded: true, isError: false, cards: res });
-      })
-      .catch(() => {
-        props.updateData({ isLoaded: true, isError: true, cards: [] });
-      });
   };
 
   return (

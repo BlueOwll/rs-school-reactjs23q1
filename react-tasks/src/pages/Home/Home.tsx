@@ -3,32 +3,22 @@ import React, { useState } from 'react';
 import Search from './../../components/Search/Search';
 import './Home.css';
 import { ICardProps } from '../../components/Card/Card';
+import { useGetManyQuery } from '../../components/Api/FlickrApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const Home = () => {
-  const [cards, setCards] = useState<ICardProps[]>([]);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-
-  const updateData = (result: ICardsProps) => {
-    if (result.isError) {
-      setIsError(true);
-      setCards([]);
-      setIsLoaded(false);
-    } else if (!result.isLoaded) {
-      setIsError(false);
-      setCards([]);
-      setIsLoaded(false);
-    } else {
-      setIsError(false);
-      setCards(result.cards);
-      setIsLoaded(true);
-    }
-  };
+  const searchText = useSelector((state: RootState) => state.searchText.value);
+  const {
+    data: cards,
+    isLoading,
+    isError,
+  } = useGetManyQuery({ text: searchText !== '' ? searchText : 'react' });
 
   return (
     <div className="home">
-      <Search updateData={updateData} />
-      <Cards cards={cards} isLoaded={isLoaded} isError={isError} />
+      <Search />
+      <Cards cards={cards} isLoading={isLoading} isError={isError} />
     </div>
   );
 };
