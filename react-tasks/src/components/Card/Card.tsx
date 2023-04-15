@@ -1,6 +1,4 @@
-import React, { MouseEventHandler, useCallback, useState } from 'react';
-import { getById } from '../Api/Api';
-import { IPhoto } from '../Api/constants';
+import { MouseEventHandler, useCallback, useState } from 'react';
 import { FullCard } from '../FullCard/FullCard';
 import Modal from '../Modal/Modal';
 import './card.css';
@@ -24,22 +22,10 @@ export interface ICardProps {
 
 export const Card = (props: ICardProps) => {
   const [showFull, setShowFull] = useState(false);
-  const [photo, setPhoto] = useState<IPhoto | undefined>(undefined);
 
   const handleClick: MouseEventHandler = useCallback(() => {
-    if (showFull) {
-      setShowFull((showFull) => !showFull);
-    } else {
-      getById({ photo_id: props.id })
-        .then((res) => {
-          setPhoto(res);
-          setShowFull(!!res);
-        })
-        .catch(() => {
-          setShowFull(false);
-        });
-    }
-  }, [props, showFull]);
+    setShowFull(true);
+  }, []);
 
   const closeFull = useCallback(() => {
     setShowFull(false);
@@ -66,9 +52,9 @@ export const Card = (props: ICardProps) => {
         <p className="card__story">{props.birthday ? `Birthday: ${props.birthday}` : ''}</p>
         <p className="card__story">{props.fromShelter ? 'from shelter' : ''}</p>
       </div>
-      {showFull && photo && (
+      {showFull && (
         <Modal onClick={closeFull}>
-          <FullCard photo={photo} onClick={closeFull} />
+          <FullCard photo={props.id} onClick={closeFull} />
         </Modal>
       )}
     </div>
