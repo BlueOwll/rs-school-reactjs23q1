@@ -1,18 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { ChangeEventHandler, FormEventHandler, useEffect, useState } from 'react';
-import { getMany, getRecent } from '../Api/Api';
-import { ICardsProps } from '../Cards/Cards';
+import React, { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import './Search.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { update } from './SearchSlice';
-import { useGetManyQuery } from '../Api/FlickrApi';
-
-const keyText = 'inputText';
-
-interface ISearchProps {
-  updateData: (result: ICardsProps) => void;
-}
 
 const Search = () => {
   const searchText = useSelector((state: RootState) => state.searchText.value);

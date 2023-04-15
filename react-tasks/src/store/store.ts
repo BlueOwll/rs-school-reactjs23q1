@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { searchTextSlice } from '../components/Search/SearchSlice';
 import { flickrApi } from '../components/Api/FlickrApi';
+import { newCardSlice } from '../pages/NewCard/newCardSlice';
 
 export const store = configureStore({
   reducer: {
     searchText: searchTextSlice.reducer,
+    newCard: newCardSlice.reducer,
     [flickrApi.reducerPath]: flickrApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(flickrApi.middleware),

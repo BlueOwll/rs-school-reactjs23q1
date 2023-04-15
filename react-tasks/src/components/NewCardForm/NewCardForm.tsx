@@ -1,13 +1,10 @@
 import { ICardProps } from 'components/Card/Card';
-import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import './NewCardForm.css';
+import { useDispatch } from 'react-redux';
+import { addCard } from '../../pages/NewCard/newCardSlice';
 
 const breeds = ['Abyssinian', 'Angora', 'Bengal', 'British', 'Maine Coon', 'Norwegian'];
-
-interface INewCardProps {
-  updateData: (card: ICardProps) => void;
-}
 
 interface FormValues {
   name: string; //text
@@ -18,7 +15,9 @@ interface FormValues {
   img: FileList; // file
 }
 
-const NewCardForm = (props: INewCardProps) => {
+const NewCardForm = () => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -27,16 +26,17 @@ const NewCardForm = (props: INewCardProps) => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    props.updateData({
-      id: crypto.randomUUID(),
-      title: data.name,
-      birthday: data.birthday,
-      breed: data.breed,
-      gender: data.gender,
-      fromShelter: data.fromShelter,
-      imgPath: data.img[0],
-    });
-
+    dispatch(
+      addCard({
+        id: crypto.randomUUID(),
+        title: data.name,
+        birthday: data.birthday,
+        breed: data.breed,
+        gender: data.gender,
+        fromShelter: data.fromShelter,
+        imgPath: data.img[0],
+      } as ICardProps)
+    );
     reset();
     alert(`Created new card for ${data.name}`);
   };

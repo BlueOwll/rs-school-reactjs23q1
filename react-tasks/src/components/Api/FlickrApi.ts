@@ -6,7 +6,7 @@ import { ICardProps } from '../Card/Card';
 
 // Define a service using a base URL and expected endpoints
 export const flickrApi = createApi({
-  reducerPath: 'pokemonApi',
+  reducerPath: 'flickrApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
     getMany: builder.query<ICardProps[], ISearchApiOptions>({

@@ -1,9 +1,7 @@
 import {
   API_KEY,
-  API_PARAMS,
   BASE_URL,
   GETINFO_PARAMS,
-  GETRECENT_PARAMS,
   IGetInfoApiOptions,
   IPhotoResponse,
   IResponse,
@@ -41,20 +39,6 @@ export const getById = (options: IGetInfoApiOptions) => {
     });
 };
 
-export const getRecent = () => {
-  return fetch(BASE_URL + getUrl(GETRECENT_PARAMS, API_KEY))
-    .then(errorHandler)
-    .then((response) => response.json())
-    .then((data) => {
-      const responseData = data as IResponse;
-      if (responseData.stat === 'ok') return responseData.photos ? responseData.photos.photo : [];
-      throw new Error(`Error ${responseData.stat}: ${responseData.message}`);
-    })
-    .catch((err) => {
-      throw new Error(err.message);
-    });
-};
-
 export const errorHandler = (res: Response) => {
   const status = res.status.toString();
   if (res.ok) return res;
@@ -68,18 +52,3 @@ export const printData = <T>(data: T) => {
   console.log(data);
   return data;
 };
-
-// const getUrl = (
-//   method_params: string,
-//   key: string,
-//   options?: ISearchApiOptions | IGetInfoApiOptions
-// ) => {
-//   return (
-//     `${BASE_URL}/${method_params}&${API_PARAMS.api_key}=${key}` +
-//     (options
-//       ? Object.entries(options)
-//           .map((item) => `&${item[0]}=${item[1]}`)
-//           .join('')
-//       : '')
-//   );
-// };

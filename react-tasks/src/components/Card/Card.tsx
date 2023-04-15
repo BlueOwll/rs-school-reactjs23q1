@@ -44,8 +44,17 @@ export const Card = (props: ICardProps) => {
   const closeFull = useCallback(() => {
     setShowFull(false);
   }, []);
+  let src = '';
 
-  const src = `https://live.staticflickr.com/${props.server}/${props.id}_${props.secret}_n.jpg`;
+  if (typeof props.imgPath === 'string' && props.imgPath !== '') {
+    src = props.imgPath;
+  }
+  if (props.imgPath instanceof File) {
+    src = window.URL.createObjectURL(props.imgPath);
+  }
+  if (props.server) {
+    src = `https://live.staticflickr.com/${props.server}/${props.id}_${props.secret}_n.jpg`;
+  }
 
   return (
     <div className="card" role="card" onClick={handleClick}>

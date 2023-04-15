@@ -1,24 +1,25 @@
-import { Cards, ICardsProps } from './../../components/Cards/Cards';
-import React, { useState } from 'react';
+import { Cards } from './../../components/Cards/Cards';
 import Search from './../../components/Search/Search';
 import './Home.css';
-import { ICardProps } from '../../components/Card/Card';
 import { useGetManyQuery } from '../../components/Api/FlickrApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import Spinner from '../../components/Spinner/Spinner';
 
 const Home = () => {
   const searchText = useSelector((state: RootState) => state.searchText.value);
   const {
     data: cards,
-    isLoading,
+    isFetching,
     isError,
   } = useGetManyQuery({ text: searchText !== '' ? searchText : 'react' });
 
   return (
     <div className="home">
       <Search />
-      <Cards cards={cards} isLoading={isLoading} isError={isError} />
+      {isFetching && <Spinner />}
+      {cards && <Cards cards={cards} />}
+      {isError && <div className="cards">Error when download data</div>}
     </div>
   );
 };

@@ -1,19 +1,15 @@
 import { Cards } from './../../components/Cards/Cards';
-import { useState } from 'react';
 import './NewCard.css';
 import NewCardForm from './../../components/NewCardForm/NewCardForm';
-import { ICardProps } from 'components/Card/Card';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 
 const NewCard = () => {
-  const [cards, setCards] = useState<ICardProps[]>([]);
-
-  const updateData = (value: ICardProps) => {
-    setCards([...cards, value]);
-  };
+  const cards = useSelector((state: RootState) => state.newCard.newCards);
 
   return (
     <div className="home">
-      <NewCardForm updateData={updateData} />
+      <NewCardForm />
       <Cards cards={cards} />
     </div>
   );
