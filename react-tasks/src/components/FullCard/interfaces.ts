@@ -1,6 +1,4 @@
-import { IPhoto } from '../Api/constants';
-
 export interface IFullCardProps {
-  photo: IPhoto;
+  photo: string;
   onClick: () => void;
 }

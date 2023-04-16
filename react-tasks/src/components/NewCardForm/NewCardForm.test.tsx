@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
 
 import NewCardForm from './NewCardForm';
+import { store } from '../../store/store';
+import { Provider } from 'react-redux';
 
 describe('<NewCard Form />', () => {
   it('renders NewcardCard component', () => {
-    const saveData = vi.fn();
-
-    render(<NewCardForm updateData={saveData} />);
+    render(
+      <Provider store={store}>
+        <NewCardForm />
+      </Provider>
+    );
 
     expect(screen.getByRole('new-card-form')).toBeInTheDocument();
     expect(screen.getByText(`Name`)).toBeInTheDocument();
