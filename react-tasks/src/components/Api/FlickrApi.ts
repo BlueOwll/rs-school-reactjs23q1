@@ -29,7 +29,10 @@ export const flickrApi = createApi({
     getById: builder.query<IPhoto | undefined, IGetInfoApiOptions>({
       query: (options) => getUrl(GETINFO_PARAMS, API_KEY, options),
       transformResponse: (response: IPhotoResponse) => {
-        if (response.stat === 'ok') return response.photo;
+        if (response.stat === 'ok') {
+          console.log(response.photo);
+          return response.photo;
+        }
         throw new Error(`Error ${response.stat}: ${response.message}`);
       },
     }),
