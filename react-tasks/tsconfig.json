@@ -9,7 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -18,6 +18,6 @@
     "noImplicitAny": true,
     "baseUrl": "./src",
   },
-  "include": ["./src/**/*", "styled.d.ts", "./setupTests.ts"],
+  "include": ["./src/**/*", "styled.d.ts", "./setupTests.ts", "server.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
