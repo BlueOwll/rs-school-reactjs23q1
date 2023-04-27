@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
+import { store } from './src/store/store.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,22 +33,25 @@ async function createServer() {
       //    and also applies HTML transforms from Vite plugins, e.g. global
       //    preambles from @vitejs/plugin-react
       template = await vite.transformIndexHtml(url, template);
-
-      // 3. Load the server entry. ssrLoadModule automatically transforms
-      //    ESM source code to be usable in Node.js! There is no bundling
-      //    required, and provides efficient invalidation similar to HMR.
       const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
-      // 4. render the app HTML. This assumes entry-server.js's exported
-      //     `render` function calls appropriate framework SSR APIs,
-      //    e.g. ReactDOMServer.renderToString()
-      const appHtml = await render(url);
+      // Grab the initial state from our Redux store
+      const preloadedState = store.getState();
 
-      // 5. Inject the app-rendered HTML into the template.
+      const appHtml = await render(url);
       const html = template.replace(`<!--ssr-outlet-->`, appHtml);
 
+      const htmlWithState = html.replace(
+        `<!--ssr-redux-preloaded-state-->`,
+        `<script>
+      window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
+        /</g,
+        '\\u003c'
+      )} </script>`
+      );
+
       // 6. Send the rendered HTML back.
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(htmlWithState);
     } catch (e) {
       // If an error is caught, let Vite fix the stack trace so it maps back
       // to your actual source code.

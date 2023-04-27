@@ -1,5 +1,10 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react/';
+import * as toolkitRaw from '@reduxjs/toolkit/dist/query/react/';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { createApi, fetchBaseQuery } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
+
 import {
   API_KEY,
   BASE_URL,

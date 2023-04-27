@@ -1,14 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { combineReducers, configureStore } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
+
 import { searchTextSlice } from '../components/Search/SearchSlice';
 import { flickrApi } from '../components/Api/FlickrApi';
 import { newCardSlice } from '../pages/NewCard/newCardSlice';
 
+export const rootReducer = combineReducers({
+  searchText: searchTextSlice.reducer,
+  newCard: newCardSlice.reducer,
+  [flickrApi.reducerPath]: flickrApi.reducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    searchText: searchTextSlice.reducer,
-    newCard: newCardSlice.reducer,
-    [flickrApi.reducerPath]: flickrApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(flickrApi.middleware),
 });
 
