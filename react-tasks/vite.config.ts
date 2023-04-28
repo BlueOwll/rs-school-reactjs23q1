@@ -18,4 +18,11 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './setupTests.ts',
   },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: `assets/[name].[ext]`,
+      },
+    },
+  },
 });

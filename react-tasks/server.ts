@@ -22,6 +22,8 @@ async function createServer() {
   // express router (express.Router()), you should use router.use
   app.use(vite.middlewares);
 
+  app.use('/assets', express.static(path.resolve(__dirname, './dist/client/assets')));
+
   app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
@@ -38,10 +40,7 @@ async function createServer() {
       // Grab the initial state from our Redux store
       const preloadedState = store.getState();
 
-      const appHtml = await render(url);
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
-
-      const htmlWithState = html.replace(
+      const templateWithState = template.replace(
         `<!--ssr-redux-preloaded-state-->`,
         `<script>
       window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(
@@ -50,8 +49,26 @@ async function createServer() {
       )} </script>`
       );
 
-      // 6. Send the rendered HTML back.
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(htmlWithState);
+      const htmlParts = templateWithState.split('<!--ssr-outlet-->');
+
+      res.setHeader('content-type', 'text/html');
+
+      res.write(htmlParts[0]);
+      const stream = render(url, {
+        onShellReady() {
+          stream.pipe(res);
+        },
+        onShellError() {
+          res.status(500).send('<h1>Something went wrong</h1>');
+        },
+        onAllReady() {
+          res.write(htmlParts[1]);
+          res.end();
+        },
+        onError(err: Error) {
+          res.status(500).send('<h1>Something went wrong</h1>');
+        },
+      });
     } catch (e) {
       // If an error is caught, let Vite fix the stack trace so it maps back
       // to your actual source code.
