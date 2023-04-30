@@ -9,8 +9,6 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const isProd = process.env.NODE_ENV === 'production';
-
 async function createServer() {
   const app = express();
 
