@@ -9,6 +9,8 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const isProd = process.env.NODE_ENV === 'production';
+
 async function createServer() {
   const app = express();
 
@@ -25,8 +27,13 @@ async function createServer() {
     const url = req.originalUrl;
 
     try {
-      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
-      template = await vite.transformIndexHtml(url, template);
+      let template: string;
+
+        template = fs.readFileSync(path.resolve('dist/client/index.html'), 'utf-8');
+ 
+      //  template = await vite.transformIndexHtml(url, template);
+      
+
       const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
       const preloadedState = store.getState();
