@@ -18,6 +18,5 @@ describe('<Card />', () => {
     expect(screen.getByText(`Breed: ${testCard.breed}`)).toBeInTheDocument();
     expect(screen.getByText(`gender: ${testCard.gender}`)).toBeInTheDocument();
     expect(screen.getByText('from shelter')).toBeInTheDocument();
-    //qscreen.debug();
   });
 });

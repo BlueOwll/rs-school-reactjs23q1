@@ -7,12 +7,12 @@ import { addCard } from '../../pages/NewCard/newCardSlice';
 const breeds = ['Abyssinian', 'Angora', 'Bengal', 'British', 'Maine Coon', 'Norwegian'];
 
 interface FormValues {
-  name: string; //text
-  birthday: string; //date
-  breed: string; //select
+  name: string;
+  birthday: string;
+  breed: string;
   gender: string;
-  fromShelter: boolean; //checkbox
-  img: FileList; // file
+  fromShelter: boolean;
+  img: FileList;
 }
 
 const NewCardForm = () => {
