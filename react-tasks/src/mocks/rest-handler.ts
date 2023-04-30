@@ -80,9 +80,7 @@ export const handlers = [
   rest.get(BASE_URL, (req, res, ctx) => {
     const method = req.url.searchParams.get('method');
     const photoId = req.url.searchParams.get('photo_id');
-    console.log(method);
     if (method === 'flickr.photos.getInfo' && photoId) {
-      // If not authenticated, respond with a 403 error
       return res(
         ctx.status(200),
         ctx.json({
@@ -94,7 +92,6 @@ export const handlers = [
         })
       );
     }
-    // If authenticated, return a mocked user details
     return res(
       ctx.status(400),
       ctx.json({

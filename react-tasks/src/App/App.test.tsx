@@ -15,6 +15,6 @@ describe('App', () => {
         </BrowserRouter>
       </Provider>
     );
-    expect(screen.getByRole('searchbox')).toBeInTheDocument();
+    expect(screen.getByRole('loading')).toBeInTheDocument();
   });
 });
