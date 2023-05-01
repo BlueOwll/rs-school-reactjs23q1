@@ -5,14 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=./",
     "preview": "vite preview",
     "lint": "eslint ./src",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "start": "ts-node server.ts",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
+    "build": "cross-env NODE_ENV=production npm run build:client && npm run build:server",
+    "cypress:open": "cypress open",
+    "cypress:coverage": "nyc report --reporter=text-summary",
+    "cypress:test": "cypress run"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
@@ -20,14 +28,19 @@
     "react-router-dom": "^6.9.0"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.10.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/express": "^4.17.17",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-router": "^5.1.20",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "^0.29.5",
+    "cross-env": "^7.0.3",
+    "cypress": "^12.11.0",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -35,10 +48,14 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jsdom": "^21.1.1",
     "msw": "^1.2.1",
+    "nyc": "^15.1.0",
     "prettier": "^2.8.4",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^4.9.3",
     "vite": "^4.2.0",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-istanbul": "^4.0.1",
     "vitest": "^0.29.5"
   }
 }

@@ -1,14 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { combineReducers, configureStore } = ((toolkitRaw as TypeToolkitRaw).default ??
+  toolkitRaw) as typeof toolkitRaw;
+
 import { searchTextSlice } from '../components/Search/SearchSlice';
 import { flickrApi } from '../components/Api/FlickrApi';
 import { newCardSlice } from '../pages/NewCard/newCardSlice';
 
+export const rootReducer = combineReducers({
+  searchText: searchTextSlice.reducer,
+  newCard: newCardSlice.reducer,
+  [flickrApi.reducerPath]: flickrApi.reducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    searchText: searchTextSlice.reducer,
-    newCard: newCardSlice.reducer,
-    [flickrApi.reducerPath]: flickrApi.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(flickrApi.middleware),
 });
 

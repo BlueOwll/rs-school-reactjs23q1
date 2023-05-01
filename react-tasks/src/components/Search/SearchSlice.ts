@@ -1,4 +1,7 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { createSlice } = ((toolkitRaw as TypeToolkitRaw).default ?? toolkitRaw) as typeof toolkitRaw;
 
 export interface SearchTextState {
   value: string;
@@ -13,7 +16,6 @@ export const searchTextSlice = createSlice({
   initialState,
   reducers: {
     update: (state, action: PayloadAction<string>) => {
-      console.log(action.payload);
       state.value = action.payload;
     },
   },

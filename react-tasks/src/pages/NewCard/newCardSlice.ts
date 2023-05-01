@@ -1,4 +1,8 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction } from '@reduxjs/toolkit';
+import * as toolkitRaw from '@reduxjs/toolkit';
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { createSlice } = ((toolkitRaw as TypeToolkitRaw).default ?? toolkitRaw) as typeof toolkitRaw;
+
 import { ICardProps } from '../../components/Card/Card';
 
 export interface NewCardsState {
@@ -14,7 +18,6 @@ export const newCardSlice = createSlice({
   initialState,
   reducers: {
     addCard: (state, action: PayloadAction<ICardProps>) => {
-      console.log(action.payload);
       state.newCards = [...state.newCards, action.payload];
     },
   },

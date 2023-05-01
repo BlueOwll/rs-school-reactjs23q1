@@ -1,5 +1,9 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import * as toolkitRaw from '@reduxjs/toolkit/dist/query/react/';
+type TypeToolkitRaw = typeof toolkitRaw & { default?: unknown };
+const { createApi, fetchBaseQuery } = ((toolkitRaw as TypeToolkitRaw).default ??
+  toolkitRaw) as typeof toolkitRaw;
+
 import {
   API_KEY,
   BASE_URL,
@@ -14,7 +18,6 @@ import {
 import { getUrl } from './helpers';
 import { ICardProps } from '../Card/Card';
 
-// Define a service using a base URL and expected endpoints
 export const flickrApi = createApi({
   reducerPath: 'flickrApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
@@ -30,7 +33,6 @@ export const flickrApi = createApi({
       query: (options) => getUrl(GETINFO_PARAMS, API_KEY, options),
       transformResponse: (response: IPhotoResponse) => {
         if (response.stat === 'ok') {
-          console.log(response.photo);
           return response.photo;
         }
         throw new Error(`Error ${response.stat}: ${response.message}`);
@@ -39,6 +41,4 @@ export const flickrApi = createApi({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const { useGetManyQuery, useGetByIdQuery } = flickrApi;
